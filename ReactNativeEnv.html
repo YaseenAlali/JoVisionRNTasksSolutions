@@ -1,0 +1,161 @@
+<html>
+
+<body>
+    <h1>Environment Setup</h1>
+    <strong>
+        <p>Note: In steps marked with a (*), always close your current PowerShell window after completing
+            them. Then you may proceed to the next steps.</p>
+        <p>Steps marked with an (^) require admin privileges. Run an admin PowerShell for these steps.</p>
+    </strong>
+
+    <h2>1. Install Chocolatey</h2>
+    <h3>Run the following commands in PowerShell to install Chocolatey <strong>[*^]</strong></h3>
+    <pre><code>Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+</code></pre>
+    <h3>Verify the installation by running this command in PowerShell:</h3>
+    <pre><code>choco -v
+</code></pre>
+    <p>This should output the version of Chocolatey if installed correctly.</p>
+
+    <h2>2. Install Node.js LTS and Microsoft OpenJDK 17</h2>
+    <h3>Use Chocolatey to install Node.js LTS and Microsoft OpenJDK 17 by running this command in PowerShell: [*^]</h3>
+    <pre><code>choco install -y nodejs-lts microsoft-openjdk17
+</code></pre>
+    <h3>Verify the installation by running these commands in PowerShell:</h3>
+    <p>Verify Node.js installation:</p>
+    <pre><code>node -v
+</code></pre>
+    <p>Verify OpenJDK installation:</p>
+    <pre><code>java -version
+</code></pre>
+
+    <h2>3. Download and Install Android Studio</h2>
+    <h3>Download Android Studio from the official website at <a
+            href="https://developer.android.com/studio/index.html">https://developer.android.com/studio/index.html</a>
+    </h3>
+    <h3>Choose the standard installation.</h3>
+    <h3>Agree to all License Agreements.</h3>
+
+    <h2>4. Install Android 13 (Tiramisu) from Android Studio</h2>
+    <h3>Open the Android SDK setting:</h3>
+    <h3>Method 1:</h3>
+    <ul>
+        <li>Android Studio starting page</li>
+        <li>More actions button</li>
+        <li>SDK Manager tab</li>
+        <li>Android SDK</li>
+    </ul>
+    <h3>Method 2:</h3>
+    <ul>
+        <li>Android Studio settings page</li>
+        <li>Languages & Frameworks</li>
+        <li>Android SDK</li>
+    </ul>
+    <h3>Install Android 13 (Tiramisu):</h3>
+    <ul>
+        <li>Check the "Show Package Details" checkbox</li>
+        <li>Look for and expand the Android 13 (Tiramisu) entry API level 33: Android SDK Platform 33, Sources for
+            Android 33 and check it</li>
+    </ul>
+    <h3>Install Build tools for Android 33:</h3>
+    <ul>
+        <li>Select the "SDK Tools" tab</li>
+        <li>Check the "Show Package Details" checkbox if needed</li>
+        <li>Look for and expand the Android SDK Build-Tools entry</li>
+        <li>Make sure that 33.0.0 is selected</li>
+        <li>Click apply, then download and install the new items</li>
+    </ul>
+
+    <h2>5. Set ANDROID_HOME user environment variable</h2>
+    <h3>Run the following command in your user's PowerShell (Do not use the admin one). <strong>[*]</strong></h3>
+    <pre><code>setx ANDROID_HOME "$env:LOCALAPPDATA\Android\Sdk"
+</code></pre>
+    <h3>To verify that you have done this step correctly check if the path variable contains ANDROID_HOME with this
+        command:</h3>
+    <pre><code>Get-ChildItem -Path Env:\ | Where-Object { $_.Name -eq 'ANDROID_HOME' }
+</code></pre>
+
+
+    <h2>6. Add platform-tools to Path</h2>
+    <h3>Run the following command in PowerShell <strong>[*]</strong></h3>
+    <pre><code>setx Path "$env:Path;$env:LOCALAPPDATA\Android\Sdk\platform-tools"
+</code></pre>
+    <h3>To verify that you have done this step correctly attempt to use one of the platform tools by running the
+        following command</h3>
+    <pre><code>adb version
+</code></pre>
+
+    <h2>7. Install the react native and react native community command line interfaces</h2>
+    <h3>If you already tried to install one of them run the following command first to remove them otherwise skip this
+        step</h3>
+    <pre><code>npm uninstall -g react-native-cli @react-native-community/cli
+</code></pre>
+    <h3>Install the command line interfaces *</h3>
+    <pre><code>npm install -g react-native-cli @react-native-community/cli
+</code></pre>
+
+    <h2>8. Setting up devices</h2>
+    <h3>Physical device <a
+            href="https://www.howtogeek.com/125769/how-to-install-and-use-abd-the-android-debug-bridge-utility/">https://www.howtogeek.com/125769/how-to-install-and-use-abd-the-android-debug-bridge-utility/</a>
+    </h3>
+    <h3>Emulator device:</h3>
+    <h3>Open android studio</h3>
+    <ul>
+        <li>More Actions button</li>
+        <li>Virtual device manager</li>
+        <li>Check if a device with API level 33 exists, If it does then run it and skip to step 9</li>
+        <li>Press the + button to create a new device</li>
+        <li>In the hardware tab select a medium phone then press next</li>
+        <li>In the system image select Tiramisu API level 33, And press the download button if its grayed out</li>
+        <li>Name it and click finish then press the right arrow button to run it in the device manager tab</li>
+    </ul>
+
+    <h2>10. Create a fresh react native project</h2>
+    <h3>Navigate to the folder where you want to save your project in the file explorer</h3>
+    <h3>Point your mouse to an empty space in the folder, Keep pressing shift, then right click on the mouse and choose
+        "Open powershell window here"</h3>
+    <h3>Run the following command to create your new project</h3>
+    <pre><code>npx react-native init NameOfYourProject
+</code></pre>
+
+    <h3>After your project is created run the following command, make sure the emulator or your physical connected, Run
+        the following command to start your application</h3>
+    <pre><code>npx react-native run-android
+</code></pre>
+
+
+</body>
+
+<style>
+    /* Main Step */
+    h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+        border: 2px solid #333;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Secondary Step */
+    h3 {
+        font-size: 1.2em;
+        color: #666;
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+
+    /* Code */
+    code {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin-bottom: 5px;
+    }
+    pre{
+        padding: 5px;
+    }
+</style>
+
+</html>
